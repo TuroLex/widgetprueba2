@@ -1,0 +1,20 @@
+<div id="cat-widget">
+  <h2>Here are 3 pictures of cats:</h2>
+  <div class="cat-images"></div>
+</div>
+
+<script>
+  // Fetch cat images from the Cat API
+  fetch("https://api.thecatapi.com/v1/images/search?limit=3")
+    .then(response => response.json())
+    .then(data => {
+      const catImages = data.map(image => `<img src="${image.url}" alt="Cat image">`).join("");
+      const catImagesContainer = document.querySelector(".cat-images");
+      catImagesContainer.innerHTML = catImages;
+    })
+    .catch(error => {
+      console.error(error);
+      const catWidget = document.getElementById("cat-widget");
+      catWidget.innerHTML = "<p>Error retrieving cat images</p>";
+    });
+</script>
