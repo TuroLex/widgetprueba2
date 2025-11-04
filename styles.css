@@ -1,37 +1,33 @@
 /* Variables inspiradas en Notion Dark Mode */
 :root {
-    --notion-bg: #1f1f1f;
+    --notion-bg: #1f1f1f; /* Este es un color de referencia, pero usamos transparent */
     --notion-text: #e8e8e8;
     --notion-text-subtle: #9a9a9a;
-    --notion-highlight: #dbdbdb; /* Nuevo color de destaque, un blanco suave */
+    --notion-highlight: #dbdbdb; /* Color de destaque (blanco suave) */
     --notion-border: #383838;
     --notion-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 body {
-    /* 1. Adaptación de tamaño: asegura que ocupe todo el iframe */
-    background-color: var(--notion-bg);
+    /* 1. Fondo Transparente */
+    background-color: transparent; 
     color: var(--notion-text);
     font-family: var(--notion-font);
     margin: 0;
     padding: 0;
-    /* Remover la altura forzada, ya que Notion maneja la altura del iframe */
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; */ 
     overflow: hidden; 
 }
 
 #widget-container {
-    /* 1. Adaptación de tamaño: ocupa el 100% del contenedor padre (body) */
+    /* 1. Fondo Transparente */
+    background-color: transparent;
     width: 100%; 
     padding: 20px;
     border-radius: 5px;
     box-sizing: border-box;
     position: relative;
-    /* Se mantiene la sombra para simular el bloque de Notion */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--notion-border);
+    /* 2. Borde Eliminado */
+    box-shadow: none; 
     transition: all 0.3s ease;
 }
 
@@ -54,42 +50,25 @@ h1, h2 {
 }
 
 .days-display {
-    /* 2. Cambiar el color de destaque a blanco suave */
     font-size: 3em;
     font-weight: 700;
-    color: var(--notion-highlight); /* Color cambiado aquí */
+    color: var(--notion-highlight);
     text-align: center;
     margin: 5px 0 0;
 }
 
-.info-text {
-    font-size: 0.85em;
-    color: var(--notion-text-subtle);
-    text-align: center;
-    margin-top: 5px;
-}
-
-/* --- Vistas y Transiciones --- */
-
-.view {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.hidden {
-    opacity: 0;
-}
-
-/* --- Botón de Configuración (3. Hacerlo más sutil) --- */
+/* --- Botón de Configuración (4. Símbolo y estilo más minimalista) --- */
 
 #toggle-config-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px; /* Ligeramente más arriba */
+    right: 5px; /* Ligeramente más a la derecha */
     background: none;
     border: none;
-    color: var(--notion-text-subtle); /* Más sutil, usa el color de texto secundario */
+    color: var(--notion-text-subtle); 
     cursor: pointer;
-    font-size: 1.1em;
+    font-size: 2em; /* Mayor tamaño para que el punto sea visible */
+    line-height: 0.5; /* Ajuste para centrar el punto */
     padding: 5px;
     border-radius: 3px;
     transition: color 0.2s, background-color 0.2s;
@@ -98,10 +77,19 @@ h1, h2 {
 
 #toggle-config-btn:hover {
     color: var(--notion-text); /* Se aclara al pasar el ratón */
-    background-color: var(--notion-border);
+    background-color: transparent; /* No queremos fondo al pasar el ratón */
 }
 
-/* --- Formularios (Mantienen el azul para los botones de acción) --- */
+/* --- Formularios (Vistas de Configuración) --- */
+
+/* La vista de config ahora también necesita un fondo para ser legible */
+#config-view {
+    background-color: #2F3438; /* Color real del fondo de Notion dark */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px var(--notion-border);
+}
+
 
 label {
     display: block;
@@ -115,7 +103,7 @@ label {
 input[type="text"], input[type="date"] {
     width: calc(100% - 20px);
     padding: 8px 10px;
-    background-color: var(--notion-bg);
+    background-color: var(--notion-border); /* Usamos un color ligeramente más oscuro para los campos */
     border: 1px solid var(--notion-border);
     color: var(--notion-text);
     border-radius: 4px;
@@ -125,17 +113,16 @@ input[type="text"], input[type="date"] {
 }
 
 input[type="text"]:focus, input[type="date"]:focus {
-    border-color: var(--notion-highlight); /* Mantener el foco sutil en blanco */
+    border-color: var(--notion-highlight);
     outline: none;
 }
 
-/* Botón de Guardar: Mantenemos el azul de Notion para la acción principal */
 .notion-btn {
     display: block;
     width: 100%;
     padding: 10px;
     margin-top: 20px;
-    background-color: #3772ff; /* Azul estándar de Notion */
+    background-color: #3772ff; 
     color: #fff;
     border: none;
     border-radius: 4px;
