@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Elementos del DOM
+    const body = document.body; // Referencia al body
     const mainView = document.getElementById('main-view');
     const configView = document.getElementById('config-view');
     const toggleConfigBtn = document.getElementById('toggle-config-btn');
@@ -52,55 +53,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. Gestión de Vistas (Main y Config) - LÓGICA CORREGIDA
+    // 4. Gestión de Vistas (Main y Config) - LÓGICA DE SCROLL AÑADIDA
     function toggleView() {
         isConfigView = !isConfigView;
 
         if (isConfigView) {
             // TRANSICIÓN A VISTA DE CONFIGURACIÓN (Main -> Config)
+            body.classList.add('scrollable-config'); // HABILITAR SCROLL
 
-            // 1. Mostrar estructura de Config inmediatamente (opacidad 0)
             configView.style.display = 'block';
-            
-            // 2. Ocultar Main (iniciar fade out)
             mainView.classList.add('hidden'); 
             
-            // 3. Mostrar Config (iniciar fade in) después de un pequeño retraso
             setTimeout(() => {
                 configView.classList.remove('hidden');
             }, 10);
             
-            // 4. Ocultar Main completamente después de que su fade out termine
             setTimeout(() => {
                 mainView.style.display = 'none';
-                // Cambiar botón a 'X' para cerrar
                 toggleConfigBtn.textContent = '❌'; 
                 toggleConfigBtn.style.fontSize = '1.2em';
                 toggleConfigBtn.style.lineHeight = '1';
-            }, transitionDuration + 10); // 310ms
+            }, transitionDuration + 10); 
 
         } else {
             // TRANSICIÓN A VISTA PRINCIPAL (Config -> Main)
+            body.classList.remove('scrollable-config'); // DESHABILITAR SCROLL
 
-            // 1. Mostrar estructura de Main inmediatamente (opacidad 0)
             mainView.style.display = 'block';
-
-            // 2. Ocultar Config (iniciar fade out)
             configView.classList.add('hidden');
             
-            // 3. Mostrar Main (iniciar fade in) después de un pequeño retraso
             setTimeout(() => {
                 mainView.classList.remove('hidden');
             }, 10);
             
-            // 4. Ocultar Config completamente después de que su fade out termine
             setTimeout(() => {
                 configView.style.display = 'none';
-                // Cambiar botón a '•' para abrir config
                 toggleConfigBtn.textContent = '•'; 
                 toggleConfigBtn.style.fontSize = '2em';
                 toggleConfigBtn.style.lineHeight = '0.5';
-            }, transitionDuration + 10); // 310ms
+            }, transitionDuration + 10); 
         }
         
         // Cargar los valores actuales en los inputs de configuración
@@ -136,5 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     configView.style.display = 'none';
     mainView.classList.remove('hidden');
     configView.classList.add('hidden');
+    // Aseguramos que el scroll esté deshabilitado por defecto
+    body.classList.remove('scrollable-config');
 
 });
