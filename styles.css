@@ -3,32 +3,34 @@
     --notion-bg: #1f1f1f;
     --notion-text: #e8e8e8;
     --notion-text-subtle: #9a9a9a;
-    --notion-blue: #3772ff;
+    --notion-highlight: #dbdbdb; /* Nuevo color de destaque, un blanco suave */
     --notion-border: #383838;
     --notion-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 body {
+    /* 1. Adaptación de tamaño: asegura que ocupe todo el iframe */
     background-color: var(--notion-bg);
     color: var(--notion-text);
     font-family: var(--notion-font);
     margin: 0;
     padding: 0;
-    display: flex;
+    /* Remover la altura forzada, ya que Notion maneja la altura del iframe */
+    /* display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden; /* Importante para el incrustado */
+    height: 100vh; */ 
+    overflow: hidden; 
 }
 
 #widget-container {
-    width: 100%;
-    max-width: 400px;
+    /* 1. Adaptación de tamaño: ocupa el 100% del contenedor padre (body) */
+    width: 100%; 
     padding: 20px;
     border-radius: 5px;
     box-sizing: border-box;
     position: relative;
-    /* Estilo sutil de caja de Notion */
+    /* Se mantiene la sombra para simular el bloque de Notion */
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--notion-border);
     transition: all 0.3s ease;
 }
@@ -52,9 +54,10 @@ h1, h2 {
 }
 
 .days-display {
+    /* 2. Cambiar el color de destaque a blanco suave */
     font-size: 3em;
     font-weight: 700;
-    color: var(--notion-blue);
+    color: var(--notion-highlight); /* Color cambiado aquí */
     text-align: center;
     margin: 5px 0 0;
 }
@@ -74,11 +77,9 @@ h1, h2 {
 
 .hidden {
     opacity: 0;
-    /* Mover fuera de la vista en vez de display: none para animaciones */
-    /* Usaremos JS para gestionar 'display' después de la transición */
 }
 
-/* --- Botones y Formularios (Estilo Notion) --- */
+/* --- Botón de Configuración (3. Hacerlo más sutil) --- */
 
 #toggle-config-btn {
     position: absolute;
@@ -86,7 +87,7 @@ h1, h2 {
     right: 10px;
     background: none;
     border: none;
-    color: var(--notion-text-subtle);
+    color: var(--notion-text-subtle); /* Más sutil, usa el color de texto secundario */
     cursor: pointer;
     font-size: 1.1em;
     padding: 5px;
@@ -96,9 +97,11 @@ h1, h2 {
 }
 
 #toggle-config-btn:hover {
-    color: var(--notion-text);
+    color: var(--notion-text); /* Se aclara al pasar el ratón */
     background-color: var(--notion-border);
 }
+
+/* --- Formularios (Mantienen el azul para los botones de acción) --- */
 
 label {
     display: block;
@@ -122,16 +125,17 @@ input[type="text"], input[type="date"] {
 }
 
 input[type="text"]:focus, input[type="date"]:focus {
-    border-color: var(--notion-blue);
+    border-color: var(--notion-highlight); /* Mantener el foco sutil en blanco */
     outline: none;
 }
 
+/* Botón de Guardar: Mantenemos el azul de Notion para la acción principal */
 .notion-btn {
     display: block;
     width: 100%;
     padding: 10px;
     margin-top: 20px;
-    background-color: var(--notion-blue);
+    background-color: #3772ff; /* Azul estándar de Notion */
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -141,11 +145,9 @@ input[type="text"]:focus, input[type="date"]:focus {
 }
 
 .notion-btn:hover {
-    background-color: #2e64d7; /* Un azul ligeramente más oscuro */
+    background-color: #2e64d7; 
 }
 
-/* Estilo para el input[type="date"] para mejor integración */
-/* Puede variar ligeramente según el navegador */
 input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1); /* Hace que el icono de calendario se vea bien en oscuro */
+    filter: invert(1);
 }
