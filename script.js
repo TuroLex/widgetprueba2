@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleConfigBtn = document.getElementById('toggle-config-btn');
     const countdownTitle = document.getElementById('countdown-title');
     const countdownDays = document.getElementById('countdown-days');
-    const countdownInfo = document.getElementById('countdown-info');
+    
+    // Eliminado: const countdownInfo = document.getElementById('countdown-info');
 
     const inputTitle = document.getElementById('input-title');
     const inputDate = document.getElementById('input-date');
@@ -13,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Valores por defecto
     const DEFAULT_TITLE = "Nuevo Evento Importante";
-    // Formato YYYY-MM-DD
     const DEFAULT_DATE = new Date(new Date().getTime() + (7 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
 
     // 2. Gestión de Persistencia (localStorage)
@@ -36,28 +36,28 @@ document.addEventListener('DOMContentLoaded', () => {
         countdownTitle.textContent = title;
 
         // Calcular los días restantes
-        const targetDate = new Date(date + 'T00:00:00'); // Añadir T00:00:00 para asegurar la hora de inicio
+        const targetDate = new Date(date + 'T00:00:00'); 
         const today = new Date();
-        
-        // Ajustar la hora de hoy para evitar problemas de zona horaria en el cálculo de días completos
         today.setHours(0, 0, 0, 0);
 
         const timeDifference = targetDate.getTime() - today.getTime();
-        
-        // La fórmula para días, redondeando hacia arriba para contar el día de hoy si aún no ha pasado
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
         
         if (daysRemaining > 0) {
+            // Caso normal: Días restantes
             countdownDays.textContent = `${daysRemaining} ${daysRemaining === 1 ? 'Día' : 'Días'}`;
-            countdownInfo.textContent = 'restantes';
+            
         } else if (daysRemaining === 0) {
+            // Caso especial: Hoy es el día
             countdownDays.textContent = `¡Hoy!`;
-            countdownInfo.textContent = title; // Muestra el título como info
+            
         } else {
-            // Evento ya pasado
-            countdownDays.textContent = `Evento Pasado`;
-            countdownInfo.textContent = `${Math.abs(daysRemaining)} días desde`;
+            // Caso pasado: Evento ya pasado
+            const daysSince = Math.abs(daysRemaining);
+            countdownDays.textContent = `Pasó hace ${daysSince} ${daysSince === 1 ? 'Día' : 'Días'}`;
         }
+        
+        // El elemento 'countdown-info' ha sido eliminado, por lo que no se hace referencia aquí.
     }
 
     // 4. Gestión de Vistas (Main y Config)
@@ -73,17 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 mainView.classList.add('hidden');
                 configView.classList.remove('hidden');
-                toggleConfigBtn.textContent = '❌'; // Icono para cerrar config
-            }, 10); // Pequeño retraso para asegurar el 'display' antes de la transición
+                toggleConfigBtn.textContent = '❌'; // Se usa una 'X' simple para cerrar config
+                toggleConfigBtn.style.fontSize = '1.2em'; // Ajuste de tamaño para la 'X'
+                toggleConfigBtn.style.lineHeight = '1';
+            }, 10); 
         } else {
             // Mostrar Main, Ocultar Config
             configView.classList.add('hidden');
             mainView.classList.remove('hidden');
-            toggleConfigBtn.textContent = '⚙️'; // Icono para abrir config
+            toggleConfigBtn.textContent = '•'; // Vuelve al punto
+            toggleConfigBtn.style.fontSize = '2em'; // Ajuste de tamaño para el punto
+            toggleConfigBtn.style.lineHeight = '0.5';
             setTimeout(() => {
                 configView.style.display = 'none';
                 mainView.style.display = 'block';
-            }, 300); // Esperar la transición CSS (0.3s)
+            }, 300); 
         }
         
         // Cargar los valores actuales en los inputs de configuración
@@ -93,11 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // 5. Event Listeners
-    
-    // Botón para cambiar de vista (Main <-> Config)
     toggleConfigBtn.addEventListener('click', toggleView);
 
-    // Botón para guardar la configuración
     saveConfigBtn.addEventListener('click', () => {
         const newTitle = inputTitle.value.trim() || DEFAULT_TITLE;
         const newDate = inputDate.value;
@@ -108,24 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         saveConfig(newTitle, newDate);
-        updateCountdown(); // Actualizar inmediatamente el contador
-        toggleView();      // Volver a la vista principal
+        updateCountdown(); 
+        toggleView();      
     });
 
 
     // Inicialización: Cargar configuración inicial y poner en marcha el contador
     updateCountdown();
-
-    // Actualizar el contador cada hora (suficiente para la precisión en días)
     setInterval(updateCountdown, 1000 * 60 * 60); 
-    
-    // Si la página se recarga en la vista de config, asegurarse de que se carga correctamente
-    if (isConfigView) {
-        // Forzar la carga de la vista principal si no se manejó la sesión
-        // En este diseño, siempre iniciamos en la vista principal para el incrustado.
-        configView.style.display = 'none';
-        configView.classList.add('hidden');
-        mainView.style.display = 'block';
-        mainView.classList.remove('hidden');
-    }
 });
