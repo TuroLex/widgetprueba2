@@ -57,18 +57,18 @@ h1, h2 {
     margin: 5px 0 0;
 }
 
-/* --- Botón de Configuración (4. Símbolo y estilo más minimalista) --- */
+/* --- Botón de Configuración (Ubicación Modificada) --- */
 
 #toggle-config-btn {
     position: absolute;
-    top: 5px; /* Ligeramente más arriba */
-    right: 5px; /* Ligeramente más a la derecha */
+    top: 5px; 
+    left: 5px; /* CAMBIO CLAVE: Mover de 'right' a 'left' */
     background: none;
     border: none;
     color: var(--notion-text-subtle); 
     cursor: pointer;
-    font-size: 2em; /* Mayor tamaño para que el punto sea visible */
-    line-height: 0.5; /* Ajuste para centrar el punto */
+    font-size: 2em; 
+    line-height: 0.5; 
     padding: 5px;
     border-radius: 3px;
     transition: color 0.2s, background-color 0.2s;
@@ -76,13 +76,12 @@ h1, h2 {
 }
 
 #toggle-config-btn:hover {
-    color: var(--notion-text); /* Se aclara al pasar el ratón */
-    background-color: transparent; /* No queremos fondo al pasar el ratón */
+    color: var(--notion-text); 
+    background-color: transparent; 
 }
 
 /* --- Formularios (Vistas de Configuración) --- */
 
-/* La vista de config ahora también necesita un fondo para ser legible */
 #config-view {
     background-color: #2F3438; /* Color real del fondo de Notion dark */
     padding: 15px;
@@ -103,7 +102,7 @@ label {
 input[type="text"], input[type="date"] {
     width: calc(100% - 20px);
     padding: 8px 10px;
-    background-color: var(--notion-border); /* Usamos un color ligeramente más oscuro para los campos */
+    background-color: var(--notion-border);
     border: 1px solid var(--notion-border);
     color: var(--notion-text);
     border-radius: 4px;
